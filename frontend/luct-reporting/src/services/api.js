@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "https://luct-reporting-backend-vq3w.onrender.com",
+  baseURL: import.meta.env.VITE_API_URL || "https://reporting-backend-1yy6.onrender.com/",
 });
 
 api.interceptors.request.use((config) => {
@@ -19,4 +19,5 @@ api.interceptors.request.use((config) => {
 });
 
 export default api;
+
 
