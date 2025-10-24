@@ -15,7 +15,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL?.split(",") ?? ["http://localhost:5173"],
+    origin: process.env.FRONTEND_URL?.split(",") ?? ["https://luct-reporting-frontend-bbja.onrender.com/"],
     credentials: true,
   })
 );
@@ -38,3 +38,4 @@ app.use("/api", exportRoutes);
 app.use(errorHandler);
 
 export default app;
+
