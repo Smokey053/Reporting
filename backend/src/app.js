@@ -15,7 +15,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL?.split(",") ?? ["https://luct-reporting-frontend-bbja.onrender.com/"],
+    origin: process.env.FRONTEND_URL?.split(",") ?? ["https://reporting-backend-1yy6.onrender.com/"],
     credentials: true,
   })
 );
@@ -38,4 +38,5 @@ app.use("/api", exportRoutes);
 app.use(errorHandler);
 
 export default app;
+
 
