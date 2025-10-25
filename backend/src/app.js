@@ -15,15 +15,11 @@ const app = express();
 
 app.use(
   cors({
-    origin: [
-      "https://luct-reporting-frontend-bbja.onrender.com",
-    ],
+    origin: ["https://luct-reporting-frontend-bbja.onrender.com"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
   })
-);
-
 );
 app.options("*", cors());
 
@@ -46,6 +42,7 @@ app.use("/api", exportRoutes);
 app.use(errorHandler);
 
 export default app;
+
 
 
 
