@@ -18,6 +18,12 @@ const startServer = async () => {
   app.listen(PORT, () => {
     console.log(`API running on port ${PORT}`);
   });
+  
+  app.get('/', (req, res) => {
+    res.send('Backend is running!');
+  });
+  
 };
 
 startServer();
+
