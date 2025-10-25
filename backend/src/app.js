@@ -15,10 +15,18 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL?.split(",") ?? ["https://reporting-backend-1yy6.onrender.com/"],
+    origin: [
+      "https://luct-reporting-frontend-bbja.onrender.com",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+);
+app.options("*", cors());
+
 app.use(express.json());
 
 app.get("/api/health", (_req, res) => {
@@ -38,5 +46,6 @@ app.use("/api", exportRoutes);
 app.use(errorHandler);
 
 export default app;
+
 
 
