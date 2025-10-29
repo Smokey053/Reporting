@@ -4,7 +4,7 @@ import api from "../../services/api.js";
 import Card from "../../components/ui/Card.jsx";
 import EmptyState from "../../components/ui/EmptyState.jsx";
 import Tag from "../../components/ui/Tag.jsx";
-import { format } from "date-fns";
+import { format as formatDate } from "date-fns";
 import Button from "../../components/ui/Button.jsx";
 import InputGroup from "../../components/ui/InputGroup.jsx";
 import { Download, Search, X } from "lucide-react";
@@ -80,13 +80,13 @@ const Reports = () => {
     setFilteredRecords(filtered);
   }, [searchTerm, statusFilter, records]);
 
-  const handleExport = async (format) => {
+  const handleExport = async (exportFormat) => {
     try {
       setExporting(true);
       const response = await api.post(
         `/export/reports`,
         {
-          format,
+          format: exportFormat,
           filters: {
             facultyId: user.facultyId,
           },
@@ -100,9 +100,13 @@ const Reports = () => {
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;
-      const timestamp = format(new Date(), "yyyyMMdd_HHmmss");
+      const timestamp = formatDate(new Date(), "yyyyMMdd_HHmmss");
       const extension =
-        format === "xlsx" ? "xlsx" : format === "csv" ? "csv" : "pdf";
+        exportFormat === "xlsx"
+          ? "xlsx"
+          : exportFormat === "csv"
+          ? "csv"
+          : "pdf";
       link.setAttribute("download", `reports_${timestamp}.${extension}`);
       document.body.appendChild(link);
       link.click();
@@ -250,7 +254,7 @@ const Reports = () => {
                   if (!source) return null;
                   return (
                     <Tag tone="accent">
-                      {format(new Date(source), "dd MMM yyyy")}
+                      {formatDate(new Date(source), "dd MMM yyyy")}
                     </Tag>
                   );
                 })()}
