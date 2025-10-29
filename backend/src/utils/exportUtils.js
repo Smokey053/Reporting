@@ -63,7 +63,12 @@ export const getReportsForExport = async (filters = {}) => {
              DATE_FORMAT(r.date_of_lecture, '%Y-%m-%d') AS dateOfLecture,
              r.week_of_reporting AS weekOfReporting,
              r.actual_students_present AS studentsPresent,
-             r.total_registered_students AS totalStudents,
+             totals.total_registered AS totalStudents,
+             CASE
+               WHEN totals.total_registered > 0
+               THEN ROUND(r.actual_students_present * 100 / totals.total_registered)
+               ELSE NULL
+             END AS attendancePercentage,
              r.status,
              r.topic_taught AS topic,
              r.learning_outcomes AS outcomes,
@@ -78,6 +83,12 @@ export const getReportsForExport = async (filters = {}) => {
       LEFT JOIN courses co ON co.id = r.course_id
       LEFT JOIN faculties f ON f.id = r.faculty_id
       LEFT JOIN users u ON u.id = r.lecturer_id
+      LEFT JOIN (
+        SELECT class_id, COUNT(*) AS total_registered
+        FROM student_enrollments
+        WHERE enrollment_status = 'active'
+        GROUP BY class_id
+      ) AS totals ON totals.class_id = r.class_id
       WHERE 1=1
     `;
 
